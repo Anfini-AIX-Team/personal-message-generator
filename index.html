@@ -37,7 +37,9 @@
   header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 16px 28px;
+    box-sizing: border-box;
+    height: 68px;
+    padding: 0 28px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -46,7 +48,7 @@
     z-index: 100;
   }
 
-  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo { display: flex; align-items: center; gap: 12px; height: 36px; }
   .logo-badge {
     width: 36px; height: 36px;
     background: var(--accent);
@@ -58,8 +60,8 @@
   .logo-badge svg { width: 22px; height: 22px; }
   .app-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 20px 0 0; white-space: nowrap; line-height: 1; }
 
-  .nav-tabs { display: flex; gap: 4px; background: var(--bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
-  .nav-tab { padding: 6px 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); border: none; background: none; border-radius: 6px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; }
+  .nav-tabs { display: flex; align-items: stretch; gap: 4px; background: var(--bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); box-sizing: border-box; height: 36px; }
+  .nav-tab { padding: 0 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); border: none; background: none; border-radius: 6px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; box-sizing: border-box; }
   .nav-tab.active { background: var(--surface); color: var(--accent); box-shadow: var(--shadow); }
 
   .spinner { width: 13px; height: 13px; border: 2px solid rgba(59,110,240,.25); border-top-color: var(--accent); border-radius: 50%; display: inline-block; vertical-align: -2px; animation: spin .7s linear infinite; }
@@ -363,16 +365,16 @@
     <button class="nav-tab" id="tabIndividual" onclick="switchView('individual')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>個別生成</button>
   </div>
 
-  <div style="margin-left:auto;display:flex;align-items:center;gap:12px;">
-    <button onclick="showPromptModal()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:4px;font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>プロンプト設定</button>
+  <div style="margin-left:auto;display:flex;align-items:center;height:36px;gap:12px;">
+    <button onclick="showPromptModal()" style="height:36px;box-sizing:border-box;background:none;border:1px solid var(--border);border-radius:6px;padding:0 12px;font-size:12px;cursor:pointer;color:var(--text-secondary);display:inline-flex;align-items:center;gap:4px;font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>プロンプト設定</button>
     
-    <div style="display:flex;align-items:center;gap:6px;font-size:12px;">
+    <div style="display:flex;align-items:center;height:36px;gap:6px;font-size:12px;">
       <span id="authStatusText" style="color:var(--text-muted);display:inline-flex;align-items:center;gap:4px;"></span>
-      <button onclick="showModal()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;color:var(--text-secondary);">変更</button>
+      <button onclick="showModal()" style="height:28px;box-sizing:border-box;background:none;border:1px solid var(--border);border-radius:6px;padding:0 10px;font-size:11px;cursor:pointer;color:var(--text-secondary);display:inline-flex;align-items:center;">変更</button>
     </div>
-    <div style="display:flex;align-items:center;gap:6px;">
+    <div style="display:flex;align-items:center;height:36px;gap:6px;">
       <label style="font-size:12px;color:var(--text-muted);white-space:nowrap;">モデル</label>
-      <select id="modelSelect" style="border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:12px;outline:none;font-family:inherit;background:var(--bg);color:var(--text-primary);cursor:pointer;">
+      <select id="modelSelect" style="height:36px;box-sizing:border-box;border:1px solid var(--border);border-radius:8px;padding:0 10px;font-size:12px;outline:none;font-family:inherit;background:var(--bg);color:var(--text-primary);cursor:pointer;">
         <option value="gemini-2.5-flash">gemini-2.5-flash（推奨）</option>
         <option value="gemini-2.0-flash">gemini-2.0-flash</option>
         <option value="gemini-1.5-flash-latest">gemini-1.5-flash-latest</option>
@@ -479,7 +481,15 @@ function icon(name, size) {
     arrowLeft: '<path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path>',
     target: '<circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle>',
     alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
-    xCircle: '<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>'
+    xCircle: '<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>',
+    clipboard: '<rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>',
+    briefcase: '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>',
+    graduationCap: '<path d="M22 10 12 5 2 10l10 5 10-5Z"></path><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"></path>',
+    globe: '<circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"></path>',
+    wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76Z"></path>',
+    building: '<rect x="4" y="2" width="16" height="20" rx="1"></rect><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="18" x2="15" y2="18"></line>',
+    sprout: '<path d="M7 20h10"></path><path d="M10 20c0-4 2-6 2-10"></path><path d="M12 10c-4 0-6-2-6-6 4 0 6 2 6 6Z"></path><path d="M12 10c4 0 6-2 6-6-4 0-6 2-6 6Z"></path>',
+    fileText: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line>'
   };
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex:none">${paths[name]||''}</svg>`;
 }
@@ -1032,13 +1042,13 @@ function buildFullProfile(c) {
     fi('応募経路','応募経路'), fi('キャリア状況','キャリア状況'),
     fi('応募日','応募日'), fi('選考ステップ','選考ステップ'),
   ].filter(Boolean).join('');
-  if (basic) html += section('📋 基本情報', basic);
+  if (basic) html += section(icon('clipboard',12) + ' 基本情報', basic);
 
   const job = [
     fi('応募求人タイトル','応募求人',true), fi('応募職種','応募職種',true),
     fi('応募メッセージ','応募メッセージ',true), fi('選考メモ','選考メモ',true),
   ].filter(Boolean).join('');
-  if (job) html += section('💼 応募情報', job);
+  if (job) html += section(icon('briefcase',12) + ' 応募情報', job);
 
   let edu = '';
   for (let i = 1; i <= 3; i++) {
@@ -1050,20 +1060,20 @@ function buildFullProfile(c) {
     edu += fi(`学歴${i} 卒業区分`, `卒業区分${i}`);
     edu += fi(`学歴${i} 卒業年月`, `卒業年月${i}`);
   }
-  if (edu) html += section('🎓 学歴', edu);
+  if (edu) html += section(icon('graduationCap',12) + ' 学歴', edu);
 
   const lang = [
     fi('語学力','語学力',true), fi('TOEIC','TOEIC'), fi('TOEFL','TOEFL'),
     fi('その他の語学（1）','その他語学1'), fi('その他の語学（2）','その他語学2'),
     fi('その他の語学（3）','その他語学3'),
   ].filter(Boolean).join('');
-  if (lang) html += section('🌐 語学', lang);
+  if (lang) html += section(icon('globe',12) + ' 語学', lang);
 
   const skill = [
     fi('資格','資格',true), fi('その他経験・スキル','その他スキル',true),
     fi('経験職種','経験職種',true), fi('経験社数','経験社数'),
   ].filter(Boolean).join('');
-  if (skill) html += section('🛠 資格・スキル', skill);
+  if (skill) html += section(icon('wrench',12) + ' 資格・スキル', skill);
 
   let career = '';
   for (let i = 1; i <= 10; i++) {
@@ -1074,7 +1084,7 @@ function buildFullProfile(c) {
     career += fi(`職歴${i}の部門・役職`, ` 部門・役職${i}`);
     career += fi(`職歴${i}の職務内容`, ` 職務内容${i}`, true);
   }
-  if (career) html += section('🏢 職歴', career);
+  if (career) html += section(icon('building',12) + ' 職歴', career);
 
   const wish = [
     fi('希望業種','希望業種',true), fi('希望職種','希望職種',true),
@@ -1082,7 +1092,7 @@ function buildFullProfile(c) {
     fi('希望年収','希望年収'), fi('興味がある働き方','興味がある働き方',true),
     fi('その他希望条件','その他希望条件',true),
   ].filter(Boolean).join('');
-  if (wish) html += section('🎯 希望条件', wish);
+  if (wish) html += section(icon('target',12) + ' 希望条件', wish);
 
   let extra = '';
   for (let i = 1; i <= 5; i++) {
@@ -1099,10 +1109,10 @@ function buildFullProfile(c) {
     extra += fi(`その他経験（${i}）タイトル`, `その他経験${i}`);
     extra += fi(`その他経験（${i}）内容`, `その他経験${i}内容`, true);
   }
-  if (extra) html += section('🌱 課外活動・経験', extra);
+  if (extra) html += section(icon('sprout',12) + ' 課外活動・経験', extra);
 
   const note = fi('備考','備考',true);
-  if (note) html += section('📝 備考', note);
+  if (note) html += section(icon('fileText',12) + ' 備考', note);
 
   return html || '<div style="padding:12px 18px;color:var(--text-muted);">情報なし</div>';
 }
@@ -1181,7 +1191,7 @@ function renderRight() {
           ${c['候補者氏名'] ? `<span style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-right: 4px; flex-shrink: 0;">${esc(c['候補者氏名'])}</span>` : ''}
           ${c['年齢'] ? `<span style="color:var(--text-secondary); flex-shrink: 0;">${esc(c['年齢'])}</span>` : ''}
           ${c['応募経路'] ? `<span class="badge ${c['応募経路']==='スカウト'?'scout':'self'}">${esc(c['応募経路'])}</span>` : ''}
-          ${c['学歴1 学校名'] ? `<span style="color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis;">🎓 ${esc(c['学歴1 学校名'])}${c['学歴1 学部・学科'] ? ' ' + esc(c['学歴1 学部・学科']) : ''}</span>` : ''}
+          ${c['学歴1 学校名'] ? `<span style="color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis;">${icon('graduationCap',12)} ${esc(c['学歴1 学校名'])}${c['学歴1 学部・学科'] ? ' ' + esc(c['学歴1 学部・学科']) : ''}</span>` : ''}
         </div>
         <i class="toggle-icon" id="profileToggleIcon" style="margin-left:auto; flex-shrink:0;">▼</i>
       </div>
