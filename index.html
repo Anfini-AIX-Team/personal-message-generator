@@ -46,23 +46,24 @@
     z-index: 100;
   }
 
-  header .logo {
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-badge {
     width: 36px; height: 36px;
     background: var(--accent);
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     color: white;
+    flex: none;
   }
-  
-  header .logo svg {
-    width: 22px; height: 22px;
-  }
+  .logo-badge svg { width: 22px; height: 22px; }
+  .app-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 20px 0 0; white-space: nowrap; line-height: 1; }
 
-  header h1 { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-right: 20px; }
-  
   .nav-tabs { display: flex; gap: 4px; background: var(--bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
-  .nav-tab { padding: 6px 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); border: none; background: none; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+  .nav-tab { padding: 6px 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); border: none; background: none; border-radius: 6px; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; }
   .nav-tab.active { background: var(--surface); color: var(--accent); box-shadow: var(--shadow); }
+
+  .spinner { width: 13px; height: 13px; border: 2px solid rgba(59,110,240,.25); border-top-color: var(--accent); border-radius: 50%; display: inline-block; vertical-align: -2px; animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   .layout {
     display: grid;
@@ -102,7 +103,7 @@
     background: var(--accent-light);
   }
 
-  .upload-area .icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-area .icon { margin-bottom: 8px; display: flex; justify-content: center; color: var(--text-secondary); }
   .upload-area p { font-size: 13px; color: var(--text-secondary); }
   .upload-area strong { color: var(--accent); }
   .file-input-hidden { display: none; }
@@ -187,7 +188,7 @@
     text-align: center;
   }
 
-  .empty-state .icon { font-size: 40px; }
+  .empty-state .icon { display: flex; justify-content: center; }
 
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
 
@@ -272,23 +273,23 @@
   .gemini-btn:hover { opacity: 0.88; }
   .gemini-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-  .copy-toast { font-size: 12px; color: var(--success); opacity: 0; transition: opacity 0.3s; order: -1; }
+  .copy-toast { font-size: 12px; color: var(--success); opacity: 0; transition: opacity 0.3s; order: -1; display: inline-flex; align-items: center; gap: 4px; }
   .copy-toast.show { opacity: 1; }
 
   /* ===== Modals ===== */
   .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:flex;align-items:center;justify-content:center; }
   .modal-overlay.hidden { display:none; }
   .modal { background:var(--surface);border-radius:16px;padding:36px;width:100%;max-width:440px;box-shadow:0 8px 40px rgba(0,0,0,0.18); position: relative; max-height: 90vh; overflow-y: auto; }
-  .modal-icon { font-size:32px;margin-bottom:12px; }
+  .modal-icon { margin-bottom:12px; color: var(--accent); }
   .modal h2 { font-size:18px;font-weight:700;margin-bottom:6px; }
   .modal p { font-size:13px;color:var(--text-muted);margin-bottom:20px;line-height:1.6; }
   .modal input { width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:inherit;background:var(--bg);outline:none;margin-bottom:10px; }
   .modal input:focus { border-color:var(--accent);background:#fff; }
-  .modal .btn-primary { width:100%;padding:12px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer; }
+  .modal .btn-primary { width:100%;padding:12px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px; }
   .modal .btn-primary:hover { background:#2f5de0; }
   .modal .btn-primary:disabled { opacity:0.6;cursor:not-allowed; }
-  .modal-status { font-size:12px;text-align:center;min-height:18px;margin-top:10px; }
-  .modal-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-muted); padding: 4px; transition: color 0.15s; }
+  .modal-status { font-size:12px;text-align:center;min-height:18px;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:4px; }
+  .modal-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 4px; transition: color 0.15s; display: flex; }
   .modal-close-btn:hover { color: var(--text-primary); }
   .var-chip { background:var(--tag-bg); padding:2px 8px; border-radius:6px; font-size:11px; font-family: 'SFMono-Regular', Consolas, monospace; color: var(--accent); border: 1px solid var(--accent-light); }
 
@@ -306,20 +307,20 @@
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <button class="modal-close-btn" onclick="closeAuthModal()" title="閉じる">✕</button>
-    <div class="modal-icon">🔐</div>
+    <button class="modal-close-btn" onclick="closeAuthModal()" title="閉じる"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    <div class="modal-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
     <h2>パスワードを入力</h2>
     <p>管理者から共有されたパスワードを入力してください。<br>認証後、自動でAIが使えるようになります。</p>
     <input type="password" id="modalPassword" placeholder="パスワードを入力" onkeydown="if(event.key==='Enter')verifyPassword()">
-    <button class="btn-primary" onclick="verifyPassword()" id="modalBtn">🔓 ログイン</button>
+    <button class="btn-primary" onclick="verifyPassword()" id="modalBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>ログイン</button>
     <div class="modal-status" id="modalStatus"></div>
   </div>
 </div>
 
 <div class="modal-overlay hidden" id="promptModalOverlay">
   <div class="modal" style="max-width: 640px;">
-    <button class="modal-close-btn" onclick="closePromptModal()" title="閉じる">✕</button>
-    <div class="modal-icon">⚙️</div>
+    <button class="modal-close-btn" onclick="closePromptModal()" title="閉じる"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    <div class="modal-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
     <h2>プロンプトテンプレート設定</h2>
     <p>AIに送信するプロンプトの全文をそのまま編集できます。以下の変数を文中に記述すると、生成時に候補者ごとの内容へ自動的に置き換わります。保存内容はブラウザに記録され、次回起動時にも引き継がれます。</p>
 
@@ -338,9 +339,9 @@
     </div>
 
     <div style="display:flex; gap:10px;">
-      <button class="btn btn-secondary" onclick="resetPromptTemplate()" style="flex:1; justify-content:center;">↺ デフォルトに戻す</button>
+      <button class="btn btn-secondary" onclick="resetPromptTemplate()" style="flex:1; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"></path><path d="M3 3v5h5"></path></svg>デフォルトに戻す</button>
       <button class="btn btn-secondary" onclick="closePromptModal()" style="flex:1; justify-content:center;">キャンセル</button>
-      <button class="btn btn-primary" onclick="savePromptTemplate()" style="flex:1; justify-content:center;">⚙️ 保存する</button>
+      <button class="btn btn-primary" onclick="savePromptTemplate()" style="flex:1; justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>保存する</button>
     </div>
     <div class="modal-status" id="promptModalStatus"></div>
   </div>
@@ -348,23 +349,25 @@
 
 <header>
   <div class="logo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect width="20" height="16" x="2" y="4" rx="2"/>
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-    </svg>
+    <span class="logo-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="20" height="16" x="2" y="4" rx="2"/>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+      </svg>
+    </span>
+    <h1 class="app-title">応募者メッセージ自動生成</h1>
   </div>
-  <div><h1>応募者メッセージ自動生成</h1></div>
-  
+
   <div class="nav-tabs">
-    <button class="nav-tab active" id="tabBulk" onclick="switchView('bulk')">👥 一括生成</button>
-    <button class="nav-tab" id="tabIndividual" onclick="switchView('individual')">👤 個別生成</button>
+    <button class="nav-tab active" id="tabBulk" onclick="switchView('bulk')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>一括生成</button>
+    <button class="nav-tab" id="tabIndividual" onclick="switchView('individual')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>個別生成</button>
   </div>
 
   <div style="margin-left:auto;display:flex;align-items:center;gap:12px;">
-    <button onclick="showPromptModal()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:4px;font-weight:500;">⚙️ プロンプト設定</button>
+    <button onclick="showPromptModal()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:4px;font-weight:500;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>プロンプト設定</button>
     
     <div style="display:flex;align-items:center;gap:6px;font-size:12px;">
-      <span id="authStatusText" style="color:var(--text-muted);">🔒 未認証</span>
+      <span id="authStatusText" style="color:var(--text-muted);display:inline-flex;align-items:center;gap:4px;"></span>
       <button onclick="showModal()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer;color:var(--text-secondary);">変更</button>
     </div>
     <div style="display:flex;align-items:center;gap:6px;">
@@ -382,7 +385,7 @@
 <div class="layout view-container active" id="viewBulk">
   <div class="left">
     <div class="upload-area" id="uploadAreaBulk">
-      <div class="icon">📂</div>
+      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"></path></svg></div>
       <p><strong>CSV / Excel ファイルをドロップ</strong><br>またはクリックして選択</p>
       <input type="file" id="fileInputBulk" class="file-input-hidden" accept=".csv, .xlsx">
     </div>
@@ -398,7 +401,7 @@
   </div>
   <div class="bulk-container">
     <div class="card" style="padding: 14px 20px;">
-      <h3 style="font-size: 15px; margin-bottom: 4px;">👥 選択した人だけ一括生成</h3>
+      <h3 style="font-size: 15px; margin-bottom: 4px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>選択した人だけ一括生成</h3>
       <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 12px;">
         チェックボックスが入っている候補者へのメッセージを自動で生成します。
       </p>
@@ -409,7 +412,7 @@
       </div>
 
       <button class="gemini-btn" id="bulkGenerateBtn" onclick="startBulkGeneration()" style="padding: 10px 20px; font-size: 13px;">
-        ✦ チェックを入れた人だけ一括生成 / 再生成する
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path></svg>チェックを入れた人だけ一括生成 / 再生成する
       </button>
     </div>
     <div class="bulk-grid" id="bulkGrid">
@@ -421,7 +424,7 @@
 <div class="layout view-container" id="viewIndividual">
   <div class="left">
     <div class="upload-area" id="uploadAreaIndividual">
-      <div class="icon">📂</div>
+      <div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"></path></svg></div>
       <p><strong>CSV / Excel ファイルをドロップ</strong><br>またはクリックして選択</p>
       <input type="file" id="fileInputIndividual" class="file-input-hidden" accept=".csv, .xlsx">
     </div>
@@ -437,7 +440,7 @@
   </div>
   <div class="right" id="rightPanel">
     <div class="empty-state" style="height:100%;justify-content:center;">
-      <div class="icon">👈</div>
+      <div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></div>
       <div>
         <strong>候補者を選択してください</strong><br>
         <span style="font-size:12px;">左のリストから候補者を選ぶと、<br>メッセージを自動生成します</span>
@@ -457,6 +460,30 @@ let _gasPassword = '';
 let candidates = [];
 let selected = null;
 let currentView = 'bulk';
+
+// ===== アイコン（絵文字を廃止し、統一されたラインアイコンに置き換え） =====
+function icon(name, size) {
+  size = size || 16;
+  const paths = {
+    lock: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>',
+    unlock: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>',
+    folderOpen: '<path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"></path>',
+    users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>',
+    user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>',
+    settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle>',
+    sparkles: '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path>',
+    checkCircle: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>',
+    x: '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>',
+    copy: '<rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>',
+    rotateCcw: '<path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"></path><path d="M3 3v5h5"></path>',
+    arrowLeft: '<path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path>',
+    target: '<circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle>',
+    alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
+    xCircle: '<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>'
+  };
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;flex:none">${paths[name]||''}</svg>`;
+}
+function spinnerHtml() { return '<span class="spinner"></span>'; }
 
 // ===== プロンプトテンプレート =====
 // {{name}} / {{summary}} / {{customInstruction}} は生成時に自動置換されます
@@ -528,7 +555,7 @@ function switchView(view) {
 function showPromptModal() {
   document.getElementById('modalInstructionSetting').value = getPromptTemplate();
   const st = document.getElementById('promptModalStatus');
-  if (st) { st.textContent = ''; }
+  if (st) { st.innerHTML = ''; }
   document.getElementById('promptModalOverlay').classList.remove('hidden');
 }
 
@@ -540,7 +567,7 @@ function savePromptTemplate() {
   const val = document.getElementById('modalInstructionSetting').value;
   const st = document.getElementById('promptModalStatus');
   if (!val.trim()) {
-    if (st) { st.textContent = '⚠️ プロンプトを入力してください'; st.style.color = '#EF4444'; }
+    if (st) { st.innerHTML = icon('alert', 12) + ' プロンプトを入力してください'; st.style.color = '#EF4444'; }
     return;
   }
   localStorage.setItem('prompt_template', val);
@@ -553,7 +580,7 @@ function resetPromptTemplate() {
   localStorage.removeItem('prompt_template');
   document.getElementById('modalInstructionSetting').value = DEFAULT_PROMPT_TEMPLATE;
   const st = document.getElementById('promptModalStatus');
-  if (st) { st.textContent = '✅ デフォルトに戻しました（保存するには「保存する」を押してください）'; st.style.color = '#10B981'; }
+  if (st) { st.innerHTML = icon('checkCircle', 12) + ' デフォルトに戻しました（保存するには「保存する」を押してください）'; st.style.color = '#10B981'; }
 }
 
 async function callGAS(params) {
@@ -580,8 +607,8 @@ async function callGAS(params) {
 async function verifyPassword() {
   const pw  = document.getElementById('modalPassword').value;
   const btn = document.getElementById('modalBtn');
-  if (!pw) { setModalStatus('⚠️ パスワードを入力してください', '#EF4444'); return; }
-  btn.disabled = true; btn.textContent = '🔄 認証中...';
+  if (!pw) { setModalStatus(icon('alert', 12) + ' パスワードを入力してください', '#EF4444'); return; }
+  btn.disabled = true; btn.innerHTML = spinnerHtml() + ' 認証中...';
   setModalStatus('', '');
   try {
     const data = await callGAS({ password: pw, prompt: '__auth_check__', appId: APP_ID, model: 'gemini-1.5-flash-latest' });
@@ -589,15 +616,15 @@ async function verifyPassword() {
       _gasPassword = pw;
       sessionStorage.setItem('gas_pw', pw);
       document.getElementById('modalOverlay').classList.add('hidden');
-      document.getElementById('authStatusText').textContent = '✅ 認証済み';
+      document.getElementById('authStatusText').innerHTML = icon('checkCircle', 12) + ' 認証済み';
       document.getElementById('authStatusText').style.color = '#10B981';
     } else {
-      setModalStatus('❌ ' + (data.error || 'パスワードが違います'), '#EF4444');
+      setModalStatus(icon('xCircle', 12) + ' ' + (data.error || 'パスワードが違います'), '#EF4444');
     }
   } catch(err) {
-    setModalStatus('❌ ' + err.message, '#EF4444');
+    setModalStatus(icon('xCircle', 12) + ' ' + err.message, '#EF4444');
   } finally {
-    btn.disabled = false; btn.textContent = '🔓 ログイン';
+    btn.disabled = false; btn.innerHTML = icon('unlock', 14) + ' ログイン';
   }
 }
 
@@ -612,16 +639,20 @@ function closeAuthModal() {
 
 function setModalStatus(msg, color) {
   const el = document.getElementById('modalStatus');
-  if (el) { el.textContent = msg; el.style.color = color; }
+  if (el) { el.innerHTML = msg; el.style.color = color; }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
   const saved = sessionStorage.getItem('gas_pw');
+  const authEl = document.getElementById('authStatusText');
   if (saved) {
     _gasPassword = saved;
     document.getElementById('modalOverlay').classList.add('hidden');
-    document.getElementById('authStatusText').textContent = '✅ 認証済み';
-    document.getElementById('authStatusText').style.color = '#10B981';
+    authEl.innerHTML = icon('checkCircle', 12) + ' 認証済み';
+    authEl.style.color = '#10B981';
+  } else {
+    authEl.innerHTML = icon('lock', 12) + ' 未認証';
+    authEl.style.color = 'var(--text-muted)';
   }
 
   const setups = [
@@ -689,10 +720,10 @@ async function executeIndividualTask(targetCandidate, model) {
     }
   } catch (err) {
     targetCandidate._isGenerating = false;
-    targetCandidate._generatedMessage = `❌ 生成失敗: ${err.message}`;
+    targetCandidate._generatedMessage = `エラー: 生成に失敗しました（${err.message}）`;
     if (currentView === 'individual' && selected === targetCandidate) {
       renderRight();
-      setStatus('❌ ' + err.message, '#EF4444');
+      setStatus(icon('xCircle', 12) + ' ' + err.message, '#EF4444');
     } else if (currentView === 'bulk') {
       renderBulkView();
     }
@@ -700,15 +731,15 @@ async function executeIndividualTask(targetCandidate, model) {
 }
 
 async function generateMessage() {
-  if (!_gasPassword) { setStatus('⚠️ 先にパスワードでログインしてください', '#EF4444'); showModal(); return; }
-  if (!selected) { setStatus('⚠️ 候補者を選択してください', 'var(--text-muted)'); return; }
+  if (!_gasPassword) { setStatus(icon('alert', 12) + ' 先にパスワードでログインしてください', '#EF4444'); showModal(); return; }
+  if (!selected) { setStatus(icon('alert', 12) + ' 候補者を選択してください', 'var(--text-muted)'); return; }
   
   saveCurrentInputState();
   const model = getSelectedModel();
   
-  setStatus(model + ' で生成中...', 'var(--text-muted)');
+  setStatus(spinnerHtml() + ' ' + model + ' で生成中...', 'var(--text-muted)');
   document.getElementById('generateBtn').disabled = true;
-  document.getElementById('generateBtn').textContent = '⏳ 生成中...';
+  document.getElementById('generateBtn').innerHTML = spinnerHtml() + ' 生成中...';
   
   await executeIndividualTask(selected, model);
 }
@@ -779,20 +810,22 @@ function renderBulkView() {
   const bulkBtn = document.getElementById('bulkGenerateBtn');
   if (bulkBtn) {
     bulkBtn.disabled = isAnyGenerating;
-    bulkBtn.textContent = isAnyGenerating ? '⏳ 現在一括自動生成を実行中...' : '✦ チェックを入れた人だけ一括生成・再生成する';
+    bulkBtn.innerHTML = isAnyGenerating
+      ? spinnerHtml() + ' 現在一括自動生成を実行中...'
+      : icon('sparkles', 14) + ' チェックを入れた人だけ一括生成・再生成する';
   }
 
   grid.innerHTML = candidates.map((c, i) => {
     let contentHtml = '';
     if (c._isGenerating) {
-      contentHtml = `<div style="color:var(--text-muted); font-size:13px; padding:12px; text-align:center;">⏳ ${c._generationModel} で文章を構築中...</div>`;
+      contentHtml = `<div style="color:var(--text-muted); font-size:13px; padding:12px; text-align:center;">${spinnerHtml()} ${c._generationModel} で文章を構築中...</div>`;
     } else if (c._generatedMessage !== '') {
       contentHtml = `
         <textarea id="bulkMsgBox_${i}" rows="5" style="background:#fff; padding: 8px 12px; margin-top:2px;" readonly>${esc(c._generatedMessage)}</textarea>
         <div class="btn-row" style="margin-top:2px; gap:8px;">
           <span class="copy-toast" id="bulkToast_${i}"></span>
-          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="triggerBulkItemRegenerate(${i})">✦ 再生成</button>
-          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="copyBulkMessage(${i})">📋 コピー</button>
+          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="triggerBulkItemRegenerate(${i})">${icon('sparkles', 13)} 再生成</button>
+          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="copyBulkMessage(${i})">${icon('copy', 13)} コピー</button>
         </div>
       `;
     } else {
@@ -819,7 +852,7 @@ function copyBulkMessage(idx) {
   const txt = document.getElementById(`bulkMsgBox_${idx}`).value;
   navigator.clipboard.writeText(txt).then(() => {
     const t = document.getElementById(`bulkToast_${idx}`);
-    t.textContent = '✅ コピーしました！';
+    t.innerHTML = icon('checkCircle', 12) + ' コピーしました！';
     t.style.opacity = 1; t.style.color = '#10B981';
     setTimeout(() => { t.style.opacity = 0; }, 2000);
   });
@@ -1136,8 +1169,10 @@ function renderRight() {
   
   const isMessageVisible = (currentMessage !== '' || c._isGenerating) ? 'flex' : 'none';
   const isBtnDisabled = c._isGenerating ? 'disabled' : '';
-  const btnText = c._isGenerating ? '⏳ 生成中...' : (currentMessage !== '' ? '✦ メッセージを再生成する' : '✦ メッセージを生成する');
-  const statusText = c._isGenerating ? `${c._generationModel} で生成中...` : '';
+  const btnText = c._isGenerating
+    ? (spinnerHtml() + ' 生成中...')
+    : (currentMessage !== '' ? (icon('sparkles',14) + ' メッセージを再生成する') : (icon('sparkles',14) + ' メッセージを生成する'));
+  const statusText = c._isGenerating ? (spinnerHtml() + ' ' + c._generationModel + ' で生成中...') : '';
 
   panel.innerHTML = `
     <div class="profile-pane" id="profilePane" style="height: 48px;">
@@ -1157,7 +1192,7 @@ function renderRight() {
 
     <div class="action-pane">
       <div class="card">
-        <div class="card-header">🎯 メッセージ生成指示</div>
+        <div class="card-header">${icon('target',14)} メッセージ生成指示</div>
         <div class="prompt-section">
           <label>カスタム指示（{{customInstruction}} としてプロンプトに挿入されます）</label>
           <textarea id="instructionBox" rows="4" placeholder="個別の追加指示があれば入力してください（空欄の場合は基本ルールのみで生成されます）" oninput="saveCurrentInputState()">${esc(currentInstruction)}</textarea>
@@ -1165,7 +1200,7 @@ function renderRight() {
       </div>
 
       <div class="card">
-        <div class="card-header">✦ Gemini でメッセージ生成</div>
+        <div class="card-header">${icon('sparkles',14)} Gemini でメッセージ生成</div>
         <div class="prompt-section">
           <button class="gemini-btn" onclick="generateMessage()" id="generateBtn" style="width:100%;justify-content:center;font-size:14px;padding:13px;" ${isBtnDisabled}>
             ${btnText}
@@ -1177,7 +1212,7 @@ function renderRight() {
             
             <div class="btn-row" id="copyBtnRow" style="display: ${c._isGenerating ? 'none' : 'flex'};">
               <span class="copy-toast" id="copyToast"></span>
-              <button class="btn btn-secondary" onclick="copyMessage()">📋 コピー</button>
+              <button class="btn btn-secondary" onclick="copyMessage()">${icon('copy',14)} コピー</button>
             </div>
           </div>
         </div>
@@ -1188,14 +1223,14 @@ function renderRight() {
 
 function setStatus(msg, color) {
   const el = document.getElementById('generateStatus');
-  if (el) { el.textContent = msg; el.style.color = color; }
+  if (el) { el.innerHTML = msg; el.style.color = color; }
 }
 
 function copyMessage() {
   const txt = document.getElementById('messageBox').value;
   navigator.clipboard.writeText(txt).then(() => {
     const t = document.getElementById('copyToast');
-    t.textContent = '✅ コピーしました！';
+    t.innerHTML = icon('checkCircle', 12) + ' コピーしました！';
     t.classList.add('show');
     setTimeout(() => { t.classList.remove('show'); }, 2000);
   });
