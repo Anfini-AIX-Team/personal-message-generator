@@ -374,9 +374,9 @@
     </div>
     <div style="display:flex;align-items:center;height:36px;gap:6px;">
       <label style="font-size:12px;color:var(--text-muted);white-space:nowrap;">モデル</label>
-      <!-- 2026年7月時点のGemini APIラインナップに更新。
-           旧世代（1.5系/2.0系）はGoogle側で順次シャットダウン済みのため撤去し、
-           現行の3系（3.5 / 3.1 / 3.1 Flash-Lite）に入れ替え。 -->
+      <!-- この静的な選択肢は「ログイン前・一覧取得に失敗した場合」のフォールバックのみ。
+           ログイン認証が通ると populateModelSelectDynamically() が実際のGemini APIから
+           使用可能なモデル一覧を取得し、この中身を自動で書き換える。 -->
       <select id="modelSelect" style="height:36px;box-sizing:border-box;border:1px solid var(--border);border-radius:8px;padding:0 10px;font-size:12px;outline:none;font-family:inherit;background:var(--bg);color:var(--text-primary);cursor:pointer;">
         <option value="gemini-3.5-flash" selected>gemini-3.5-flash（推奨・最新）</option>
         <option value="gemini-flash-latest">gemini-flash-latest（常に最新Flashへ自動追従）</option>
@@ -633,6 +633,7 @@ async function verifyPassword() {
       document.getElementById('modalOverlay').classList.add('hidden');
       document.getElementById('authStatusText').innerHTML = icon('checkCircle', 12) + ' 認証済み';
       document.getElementById('authStatusText').style.color = '#10B981';
+      populateModelSelectDynamically();
     } else {
       setModalStatus(icon('xCircle', 12) + ' ' + (data.error || 'パスワードが違います'), '#EF4444');
     }
@@ -665,6 +666,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modalOverlay').classList.add('hidden');
     authEl.innerHTML = icon('checkCircle', 12) + ' 認証済み';
     authEl.style.color = '#10B981';
+    populateModelSelectDynamically();
   } else {
     authEl.innerHTML = icon('lock', 12) + ' 未認証';
     authEl.style.color = 'var(--text-muted)';
@@ -695,6 +697,50 @@ window.addEventListener('DOMContentLoaded', () => {
 function getSelectedModel() {
   const sel = document.getElementById('modelSelect');
   return sel ? sel.value : 'gemini-3.5-flash';
+}
+
+// ============================================================
+// モデル選択肢の動的取得
+// ログイン認証が済んだタイミングで、GAS経由でGemini APIの実際のモデル一覧を
+// 取得し、<select id="modelSelect"> の中身をまるごと作り直す。
+// これにより、Googleが新モデルを追加/廃止しても、このHTMLのコードを
+// 書き換えることなく選択肢が自動追従する。
+// 取得に失敗した場合は、HTMLに埋め込み済みの静的な選択肢をそのまま使う
+// （オフライン時やAPIキー未設定時のフォールバック）。
+// ============================================================
+async function populateModelSelectDynamically() {
+  const sel = document.getElementById('modelSelect');
+  if (!sel || !_gasPassword) return;
+
+  const previousValue = sel.value; // 可能なら今選んでいたモデルを引き継ぐ
+  try {
+    const data = await callGAS({ password: _gasPassword, prompt: '__list_models__', appId: APP_ID });
+    if (!data.success || !Array.isArray(data.models) || !data.models.length) return; // 失敗時は静的リストのまま
+
+    // 推奨したいモデルを見た目上わかりやすくするための簡易ラベリング
+    function labelFor(name) {
+      if (name === 'gemini-flash-latest' || name === 'gemini-pro-latest') return `${name}（常に最新版へ自動追従）`;
+      if (/flash-lite/i.test(name)) return `${name}（低コスト・高速）`;
+      if (/pro/i.test(name)) return `${name}（高精度・高コスト）`;
+      if (/flash/i.test(name)) return `${name}（バランス型）`;
+      return name;
+    }
+
+    sel.innerHTML = data.models.map(m =>
+      `<option value="${esc(m.name)}">${esc(labelFor(m.name))}</option>`
+    ).join('');
+
+    // 直前に選んでいたモデルが新しい一覧にも存在すればそれを維持、
+    // なければ一覧の先頭（降順ソートなので比較的新しいはずのもの）を選ぶ
+    if ([...sel.options].some(o => o.value === previousValue)) {
+      sel.value = previousValue;
+    } else if (sel.options.length) {
+      sel.selectedIndex = 0;
+    }
+  } catch (err) {
+    // 取得に失敗しても静的なフォールバック選択肢のまま使えるよう、何もしない
+    console.warn('モデル一覧の動的取得に失敗しました:', err.message);
+  }
 }
 
 function saveCurrentInputState() {
