@@ -377,7 +377,7 @@
       <!-- この静的な選択肢は「ログイン前・一覧取得に失敗した場合」のフォールバックのみ。
            ログイン認証が通ると populateModelSelectDynamically() が実際のGemini APIから
            使用可能なモデル一覧を取得し、この中身を自動で書き換える。 -->
-      <select id="modelSelect" style="height:36px;box-sizing:border-box;border:1px solid var(--border);border-radius:8px;padding:0 10px;font-size:12px;outline:none;font-family:inherit;background:var(--bg);color:var(--text-primary);cursor:pointer;">
+      <select id="modelSelect" style="height:36px;width:200px;box-sizing:border-box;border:1px solid var(--border);border-radius:8px;padding:0 10px;font-size:12px;outline:none;font-family:inherit;background:var(--bg);color:var(--text-primary);cursor:pointer;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;flex:none;">
         <option value="gemini-3.5-flash" selected>gemini-3.5-flash（推奨・最新）</option>
         <option value="gemini-flash-latest">gemini-flash-latest（常に最新Flashへ自動追従）</option>
         <option value="gemini-3.1-pro">gemini-3.1-pro（高精度・低速/高コスト）</option>
