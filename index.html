@@ -373,19 +373,6 @@
       <span id="authStatusText" style="color:var(--text-muted);display:inline-flex;align-items:center;gap:4px;"></span>
       <button onclick="showModal()" style="height:28px;box-sizing:border-box;background:none;border:1px solid var(--border);border-radius:6px;padding:0 10px;font-size:11px;cursor:pointer;color:var(--text-secondary);display:inline-flex;align-items:center;">変更</button>
     </div>
-    <div style="display:flex;align-items:center;height:36px;gap:6px;">
-      <label style="font-size:12px;color:var(--text-muted);white-space:nowrap;">モデル</label>
-      <!-- この静的な選択肢は「ログイン前・一覧取得に失敗した場合」のフォールバックのみ。
-           ログイン認証が通ると populateModelSelectDynamically() が実際のGemini APIから
-           使用可能なモデル一覧を取得し、この中身を自動で書き換える。 -->
-      <select id="modelSelect" style="height:36px;width:200px;box-sizing:border-box;border:1px solid var(--border);border-radius:8px;padding:0 10px;font-size:12px;outline:none;font-family:inherit;background:var(--bg);color:var(--text-primary);cursor:pointer;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;flex:none;">
-        <option value="gemini-3.5-flash" selected>gemini-3.5-flash（推奨・最新）</option>
-        <option value="gemini-flash-latest">gemini-flash-latest（常に最新Flashへ自動追従）</option>
-        <option value="gemini-3.1-pro">gemini-3.1-pro（高精度・低速/高コスト）</option>
-        <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite（低コスト・簡易タスク向け）</option>
-        <option value="gemini-2.5-flash">gemini-2.5-flash（旧世代・フォールバック用）</option>
-      </select>
-    </div>
   </div>
 </header>
 
@@ -627,14 +614,13 @@ async function verifyPassword() {
   btn.disabled = true; btn.innerHTML = spinnerHtml() + ' 認証中...';
   setModalStatus('', '');
   try {
-    const data = await callGAS({ password: pw, prompt: '__auth_check__', appId: APP_ID, model: 'gemini-3.5-flash' });
+    const data = await callGAS({ password: pw, prompt: '__auth_check__', appId: APP_ID });
     if (data.success) {
       _gasPassword = pw;
       sessionStorage.setItem('gas_pw', pw);
       document.getElementById('modalOverlay').classList.add('hidden');
       document.getElementById('authStatusText').innerHTML = icon('checkCircle', 12) + ' 認証済み';
       document.getElementById('authStatusText').style.color = '#10B981';
-      populateModelSelectDynamically();
     } else {
       setModalStatus(icon('xCircle', 12) + ' ' + (data.error || 'パスワードが違います'), '#EF4444');
     }
@@ -667,7 +653,6 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('modalOverlay').classList.add('hidden');
     authEl.innerHTML = icon('checkCircle', 12) + ' 認証済み';
     authEl.style.color = '#10B981';
-    populateModelSelectDynamically();
   } else {
     authEl.innerHTML = icon('lock', 12) + ' 未認証';
     authEl.style.color = 'var(--text-muted)';
@@ -695,55 +680,6 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-function getSelectedModel() {
-  const sel = document.getElementById('modelSelect');
-  return sel ? sel.value : 'gemini-3.5-flash';
-}
-
-// ============================================================
-// モデル選択肢の動的取得
-// ログイン認証が済んだタイミングで、GAS経由でGemini APIの実際のモデル一覧を
-// 取得し、<select id="modelSelect"> の中身をまるごと作り直す。
-// これにより、Googleが新モデルを追加/廃止しても、このHTMLのコードを
-// 書き換えることなく選択肢が自動追従する。
-// 取得に失敗した場合は、HTMLに埋め込み済みの静的な選択肢をそのまま使う
-// （オフライン時やAPIキー未設定時のフォールバック）。
-// ============================================================
-async function populateModelSelectDynamically() {
-  const sel = document.getElementById('modelSelect');
-  if (!sel || !_gasPassword) return;
-
-  const previousValue = sel.value; // 可能なら今選んでいたモデルを引き継ぐ
-  try {
-    const data = await callGAS({ password: _gasPassword, prompt: '__list_models__', appId: APP_ID });
-    if (!data.success || !Array.isArray(data.models) || !data.models.length) return; // 失敗時は静的リストのまま
-
-    // 推奨したいモデルを見た目上わかりやすくするための簡易ラベリング
-    function labelFor(name) {
-      if (name === 'gemini-flash-latest' || name === 'gemini-pro-latest') return `${name}（常に最新版へ自動追従）`;
-      if (/flash-lite/i.test(name)) return `${name}（低コスト・高速）`;
-      if (/pro/i.test(name)) return `${name}（高精度・高コスト）`;
-      if (/flash/i.test(name)) return `${name}（バランス型）`;
-      return name;
-    }
-
-    sel.innerHTML = data.models.map(m =>
-      `<option value="${esc(m.name)}">${esc(labelFor(m.name))}</option>`
-    ).join('');
-
-    // 直前に選んでいたモデルが新しい一覧にも存在すればそれを維持、
-    // なければ一覧の先頭（降順ソートなので比較的新しいはずのもの）を選ぶ
-    if ([...sel.options].some(o => o.value === previousValue)) {
-      sel.value = previousValue;
-    } else if (sel.options.length) {
-      sel.selectedIndex = 0;
-    }
-  } catch (err) {
-    // 取得に失敗しても静的なフォールバック選択肢のまま使えるよう、何もしない
-    console.warn('モデル一覧の動的取得に失敗しました:', err.message);
-  }
-}
-
 function saveCurrentInputState() {
   if (!selected || currentView !== 'individual') return;
   const instBox = document.getElementById('instructionBox');
@@ -753,11 +689,10 @@ function saveCurrentInputState() {
   if (msgBox && !selected._isGenerating) selected._generatedMessage = msgBox.value;
 }
 
-async function executeIndividualTask(targetCandidate, model) {
+async function executeIndividualTask(targetCandidate) {
   if (targetCandidate._isGenerating) return;
   
   targetCandidate._isGenerating = true;
-  targetCandidate._generationModel = model;
   
   if (currentView === 'bulk') renderBulkView();
   
@@ -769,7 +704,7 @@ async function executeIndividualTask(targetCandidate, model) {
   const prompt = buildPrompt(targetCandidate, finalInstruction);
   
   try {
-    const data = await callGAS({ password: _gasPassword, prompt, model, appId: APP_ID });
+    const data = await callGAS({ password: _gasPassword, prompt, appId: APP_ID });
     if (!data.success) throw new Error(data.error || '生成失敗');
     
     targetCandidate._generatedMessage = data.text;
@@ -797,13 +732,12 @@ async function generateMessage() {
   if (!selected) { setStatus(icon('alert', 12) + ' 候補者を選択してください', 'var(--text-muted)'); return; }
   
   saveCurrentInputState();
-  const model = getSelectedModel();
   
-  setStatus(spinnerHtml() + ' ' + model + ' で生成中...', 'var(--text-muted)');
+  setStatus(spinnerHtml() + ' 生成中...', 'var(--text-muted)');
   document.getElementById('generateBtn').disabled = true;
   document.getElementById('generateBtn').innerHTML = spinnerHtml() + ' 生成中...';
   
-  await executeIndividualTask(selected, model);
+  await executeIndividualTask(selected);
 }
 
 function startBulkGeneration() {
@@ -812,9 +746,8 @@ function startBulkGeneration() {
   const checkedCandidates = candidates.filter(c => c._isChecked && !c._isGenerating);
   if (!checkedCandidates.length) { alert('生成・再生成対象の候補者が選択されていません。'); return; }
   
-  const model = getSelectedModel();
   checkedCandidates.forEach(c => {
-    executeIndividualTask(c, model);
+    executeIndividualTask(c);
   });
   renderBulkView();
 }
@@ -824,8 +757,7 @@ function triggerBulkItemRegenerate(idx) {
   const target = candidates[idx];
   if (!target) return;
   
-  const model = getSelectedModel();
-  executeIndividualTask(target, model);
+  executeIndividualTask(target);
 }
 
 function toggleCandidateCheck(idx, checked) {
@@ -880,7 +812,7 @@ function renderBulkView() {
   grid.innerHTML = candidates.map((c, i) => {
     let contentHtml = '';
     if (c._isGenerating) {
-      contentHtml = `<div style="color:var(--text-muted); font-size:13px; padding:12px; text-align:center;">${spinnerHtml()} ${c._generationModel} で文章を構築中...</div>`;
+      contentHtml = `<div style="color:var(--text-muted); font-size:13px; padding:12px; text-align:center;">${spinnerHtml()} 文章を構築中...</div>`;
     } else if (c._generatedMessage !== '') {
       contentHtml = `
         <textarea id="bulkMsgBox_${i}" rows="5" style="background:#fff; padding: 8px 12px; margin-top:2px;" readonly>${esc(c._generatedMessage)}</textarea>
@@ -957,7 +889,6 @@ function mapStandardFields(obj) {
   obj._customInstruction = '';
   obj._generatedMessage = '';
   obj._isGenerating = false;
-  obj._generationModel = '';
   obj._isChecked = true;
   return obj;
 }
@@ -1234,7 +1165,7 @@ function renderRight() {
   const btnText = c._isGenerating
     ? (spinnerHtml() + ' 生成中...')
     : (currentMessage !== '' ? (icon('sparkles',14) + ' メッセージを再生成する') : (icon('sparkles',14) + ' メッセージを生成する'));
-  const statusText = c._isGenerating ? (spinnerHtml() + ' ' + c._generationModel + ' で生成中...') : '';
+  const statusText = c._isGenerating ? (spinnerHtml() + ' 生成中...') : '';
 
   panel.innerHTML = `
     <div class="profile-pane" id="profilePane" style="height: 48px;">
