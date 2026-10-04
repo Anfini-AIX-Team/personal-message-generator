@@ -4,10 +4,10 @@
 // 解決順: スクリプトプロパティ GEMINI_MODEL_<タスク名> → GEMINI_MODEL_<カテゴリ> → コード内の既定値
 // =============================================================
 
-const GEMINI_DEFAULT_MODELS = { CHAT: 'gemini-3.5-flash' };
+const GEMINI_DEFAULT_MODELS = { CHAT: 'gemini-3.5-flash-lite' };
 // タスク名 → カテゴリ（と、カテゴリ既定と違う場合のみ既定モデル）
 const GEMINI_TASKS = {
-  GENERATE_MESSAGE: { category: 'CHAT' },
+  GENERATE_MESSAGE: { category: 'CHAT', model: 'gemini-3.5-flash' },
 };
 
 function geminiModel(task) {
