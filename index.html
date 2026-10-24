@@ -236,7 +236,7 @@
     width: 100%;
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 12px;
+    padding: 10px 12px;
     font-size: 13px;
     font-family: inherit;
     color: var(--text-primary);
@@ -248,6 +248,7 @@
   }
 
   textarea:focus { border-color: var(--accent); background: #fff; }
+  ::placeholder { color: var(--text-muted); opacity: 1; }
 
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
   .btn-primary { background: var(--accent); color: white; }
@@ -286,7 +287,7 @@
   .modal-icon { margin-bottom:12px; color: var(--accent); }
   .modal h2 { font-size:18px;font-weight:700;margin-bottom:6px; }
   .modal p { font-size:13px;color:var(--text-muted);margin-bottom:20px;line-height:1.6; }
-  .modal input { width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:inherit;background:var(--bg);outline:none;margin-bottom:10px; }
+  .modal input { width:100%;height:36px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-size:13px;font-family:inherit;background:var(--bg);color:var(--text-primary);outline:none;margin-bottom:10px; }
   .modal input:focus { border-color:var(--accent);background:#fff; }
   .modal .btn-primary { width:100%;padding:12px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px; }
   .modal .btn-primary:hover { background:#2f5de0; }
